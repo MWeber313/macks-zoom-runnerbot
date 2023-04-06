@@ -1,0 +1,2 @@
+# This will ignore the environment file to keep my token safe
+.env 
