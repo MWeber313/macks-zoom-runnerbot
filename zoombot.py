@@ -66,14 +66,15 @@ async def on_message(message):
     if message.author == client.user:
         return
     
-    # if message.content == '!test':
-    #     message.channel.send("Test!")
-    #     return
+    if message.content == '!test':
+        await message.channel.send("Test!")
+        return
     
     if message.content == 'zoom!':
         print('Hi')
         response = createMeeting()
         await message.channel.send(response)
         return
+    await client.process_commands(message)
 
 client.run(TOKEN)
