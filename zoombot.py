@@ -1,5 +1,6 @@
 import os
 import discord
+from discord.ext import commands
 import jwt
 import requests
 import json
@@ -55,26 +56,49 @@ def createMeeting():
 
 TOKEN = os.getenv('DISCORD_TOKEN')
 
-client = discord.Client(intents=discord.Intents.default())
+intents = discord.Intents.all()
+intents.members = True
+intents.message_content = True
+intents.typing = True
+intents.prescences = True
 
-@client.event
+
+bot = commands.Bot(command_prefix='$', intents=intents)
+
+@bot.event
 async def on_ready():
-    print(f'{client.user} has connected to Discord!')
+    print(f'{bot.user} has connected to Discord!')
 
-@client.event
+@bot.event
 async def on_message(message):
-    if message.author == client.user:
+    if message.author == bot.user:
         return
     
-    if message.content == '!test':
+    if message.content == 'test':
         await message.channel.send("Test!")
         return
-    
-    if message.content == 'zoom!':
-        print('Hi')
-        response = createMeeting()
-        await message.channel.send(response)
-        return
-    await client.process_commands(message)
 
-client.run(TOKEN)
+# client = discord.Client(intents=intents)
+
+# @client.event
+# async def on_ready():
+#     print(f'{client.user} has connected to Discord!')
+
+
+
+# @client.event
+# async def on_message(message):
+#     if message.author == client.user:
+#         return
+    
+#     if message.content == '!test':
+#         await message.channel.send("Test!")
+#         return
+    
+#     if message.content == 'zoom!':
+#         print('Hi')
+#         response = createMeeting()
+#         await message.channel.send(response)
+#         return
+
+bot.run(TOKEN)
